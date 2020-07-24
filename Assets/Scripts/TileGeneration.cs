@@ -19,6 +19,7 @@ public class Biome
 {
     public string name;
     public Color color;
+    public Texture texture;
 }
 
 [Serializable]
@@ -67,8 +68,11 @@ public class TileGeneration : MonoBehaviour
     private TerrainType[] moistureTerrainTypes;
 
     [SerializeField]
+    private Shader myShader;
+
+    [SerializeField]
     private VisualizationMode visualizationMode;
-    enum VisualizationMode { Height, Heat, Moisture, Biome }
+    enum VisualizationMode { Height, Heat, Moisture, Biome, Game }
 
     void Start()
     {
@@ -141,6 +145,8 @@ public class TileGeneration : MonoBehaviour
         var moistureTexture = BuildTexture(moistureMap, this.moistureTerrainTypes, chosenMoistureTerrainTypes);
         var chosenBiomes = new Biome[tileDepth, tileWidth];
         var biomeTexture = BuildBiomeTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes);
+        var chosenGameTerrainTypes = new Biome[tileDepth, tileWidth];
+        var gameTexture = BuildGameTexture(chosenHeightTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenGameTerrainTypes);
 
         switch (this.visualizationMode)
         {
@@ -155,6 +161,10 @@ public class TileGeneration : MonoBehaviour
                 break;
             case VisualizationMode.Biome:
                 this.tileRenderer.material.mainTexture = biomeTexture;
+                break;
+            case VisualizationMode.Game:
+                //this.tileRenderer.material.shader = myShader;
+                this.tileRenderer.material.mainTexture = gameTexture;
                 break;
         }
         UpdateMeshVertices(heightMap);
@@ -219,6 +229,43 @@ public class TileGeneration : MonoBehaviour
         }
 
         var tileTexture = new Texture2D(tileWidth, tileDepth);
+        tileTexture.filterMode = FilterMode.Point;
+        tileTexture.wrapMode = TextureWrapMode.Clamp;
+        tileTexture.SetPixels(colorMap);
+        tileTexture.Apply();
+
+        return tileTexture;
+    }
+
+    private Texture BuildGameTexture(TerrainType[,] heightTerrainTypes, TerrainType[,] heatTerrainTypes, TerrainType[,] moistureTerrainTypes, Biome[,] chosenBiomes)
+    {
+        int tileDepth = heatTerrainTypes.GetLength(0);
+        int tileWidth = heatTerrainTypes.GetLength(1);
+
+        Color[] colorMap = new Color[tileDepth * tileWidth];
+        //for (int zIndex = 0; zIndex < tileDepth; zIndex++)
+        //{
+        //    for (int xIndex = 0; xIndex < tileWidth; xIndex++)
+        //    {
+                var heightTerrainType = heightTerrainTypes[0, 0];
+                var tileTexture = new Texture2D(tileWidth, tileDepth);
+                if (heightTerrainType.name != "water")
+                {
+                    var heatTerrainType = heatTerrainTypes[0, 0];
+                    var moistureTerrainType = moistureTerrainTypes[0, 0];
+
+                    Biome biome = this.biomes[moistureTerrainType.index].biomes[heatTerrainType.index];
+                    chosenBiomes[0, 0] = biome;
+                    return biome.texture;
+                }
+                else
+                {
+                    colorMap[0] = Color.blue;
+                }
+        //    }
+        //}
+
+        //var tileTexture = new Texture2D(tileWidth, tileDepth);
         tileTexture.filterMode = FilterMode.Point;
         tileTexture.wrapMode = TextureWrapMode.Clamp;
         tileTexture.SetPixels(colorMap);

@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 0}
+  - {fileID: 2100000, guid: 7cf4b68d76846b44c9bd41ef8034cd9b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -119,45 +119,61 @@ MonoBehaviour:
     amplitude: 2
   - frequency: 0.25
     amplitude: 4
-  mapScale: 10
-  heightMultiplier: 20
+  mapScale: 100
+  heightMultiplier: 200
   biomes:
   - biomes:
     - name: desert
       color: {r: 0.9951428, g: 1, b: 0, a: 0}
+      texture: {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
     - name: grassland
       color: {r: 0.2563234, g: 0.9339623, b: 0.24230155, a: 0}
+      texture: {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
   - biomes:
     - name: savanna
       color: {r: 1, g: 0.8235295, b: 0.3647059, a: 0}
+      texture: {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
     - name: savanna
       color: {r: 1, g: 0.8235295, b: 0.3647059, a: 0}
+      texture: {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
     - name: boreal_forest
       color: {r: 0.3160377, g: 1, b: 0.74357903, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
   - biomes:
     - name: tropical_rainforest
       color: {r: 0.058823533, g: 0.4901961, b: 0.09019608, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: boreal_forest
       color: {r: 0.31764707, g: 1, b: 0.74509805, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: boreal_forest
       color: {r: 0.31764707, g: 1, b: 0.74509805, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
   - biomes:
     - name: tropical_rainforest
       color: {r: 0.058823533, g: 0.4901961, b: 0.09019608, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: tropical_rainforest
       color: {r: 0.058823533, g: 0.4901961, b: 0.09019608, a: 0}
+      texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
     - name: tundra
       color: {r: 0.48627454, g: 0.7411765, b: 0.8000001, a: 0}
+      texture: {fileID: 2800000, guid: 18214e9d6af6248559d501391856f1c7, type: 3}
   heightCurve:
     serializedVersion: 2
     m_Curve:
@@ -295,7 +311,8 @@ MonoBehaviour:
     index: 0
     threshold: 1
     color: {r: 0.9450981, g: 0.30588236, b: 0.30588236, a: 0}
-  visualizationMode: 1
+  myShader: {fileID: 4800000, guid: 55c944cb84cfe934ea85ed1f7360d13a, type: 3}
+  visualizationMode: 4
 --- !u!114 &5775259790716573948
 MonoBehaviour:
   m_ObjectHideFlags: 0

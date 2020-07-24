@@ -31,7 +31,7 @@ public class LevelGeneration : MonoBehaviour
         var tileMeshVertices = tilePrefab.GetComponent<MeshFilter>().sharedMesh.vertices;
         int tileDepthInVertices = (int)Mathf.Sqrt(tileMeshVertices.Length);
         int tileWidthInVertices = tileDepthInVertices;
-        levelData = new LevelData(tileDepthInVertices, tileWidthInVertices, 2, 2);
+        levelData = new LevelData(tileDepthInVertices, tileWidthInVertices, 500, 500);
 
         UpdateMap();
     }
