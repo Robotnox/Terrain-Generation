@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using static NoiseMapGeneration;
 
-[Serializable]
-public class TerrainType
-{
-    public string name;
-    public int index;
-    public float threshold;
-    public Color color;
-}
+//[Serializable]
+//public class TerrainType
+//{
+//    public string name;
+//    public int index;
+//    public float threshold;
+//    public Color color;
+//}
 
 [Serializable]
 public class Biome

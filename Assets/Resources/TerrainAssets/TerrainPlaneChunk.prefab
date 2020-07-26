@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5775259790716573943}
   - component: {fileID: 5775259790716573948}
   m_Layer: 0
-  m_Name: TerrainChunk
+  m_Name: TerrainPlaneChunk
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -287,15 +287,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 18452
+      value: 757
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.89
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12458
+      value: 424
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalRotation.x
@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 588461626}
   - component: {fileID: 588461627}
   m_Layer: 0
-  m_Name: Spot Light
+  m_Name: Torchlight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -844,8 +844,9 @@ GameObject:
   m_Component:
   - component: {fileID: 841799538}
   - component: {fileID: 841799537}
+  - component: {fileID: 841799539}
   m_Layer: 0
-  m_Name: Directional Light
+  m_Name: Sun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -919,13 +920,26 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 841799536}
-  m_LocalRotation: {x: -0.57559025, y: -0, z: -0, w: 0.8177383}
+  m_LocalRotation: {x: 0.17022322, y: -0, z: -0, w: 0.98540556}
   m_LocalPosition: {x: 0, y: 1804, z: 1448}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: -70.282005, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 19.602001, y: 0, z: 0}
+--- !u!114 &841799539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 841799536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3cf0cde275e8ea48be2620d49f42a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  time: 1200
 --- !u!1 &847151880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1191,9 +1205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d5c4372fdc5e7943857a601036d9c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidthInTiles: 10
-  mapDepthInTiles: 10
-  tilePrefab: {fileID: 5775259790716573942, guid: 93bbfb8322908304998b89cade247c2b,
+  mapWidthInTiles: 4
+  mapDepthInTiles: 4
+  tilePrefab: {fileID: 1632624867074686386, guid: ebac65e79e0f2194ca77d606b0f989cf,
     type: 3}
   camera: {fileID: 0}
 --- !u!64 &920596218
@@ -2145,55 +2159,6 @@ MonoBehaviour:
     m_RotationOrder: 4
   rotationLerpTime: 0.01
   invertY: 0
---- !u!1 &2023685836
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2023685838}
-  - component: {fileID: 2023685837}
-  m_Layer: 0
-  m_Name: Light Probe Group
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!220 &2023685837
-LightProbeGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023685836}
-  m_Enabled: 1
-  m_SourcePositions:
-  - {x: 1, y: 1, z: 1}
-  - {x: 1, y: 1, z: -1}
-  - {x: 1, y: -1, z: 1}
-  - {x: 1, y: -1, z: -1}
-  - {x: -1, y: 1, z: 1}
-  - {x: -1, y: 1, z: -1}
-  - {x: -1, y: -1, z: 1}
-  - {x: -1, y: -1, z: -1}
-  m_Dering: 1
---- !u!4 &2023685838
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2023685836}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18452, y: 9.48, z: 12458}
-  m_LocalScale: {x: 2.7086413, y: 2.7086413, z: 2.7086413}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2078491082
 GameObject:
   m_ObjectHideFlags: 0
