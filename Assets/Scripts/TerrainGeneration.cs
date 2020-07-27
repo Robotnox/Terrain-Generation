@@ -122,7 +122,7 @@ public class TerrainGeneration : MonoBehaviour
             {
                 float height = heightMap[(int)Mathf.Floor(zIndex / 4), (int)Mathf.Floor(xIndex / 4)];
                 var terrainType = ChooseTerrainType(height, terrainTypes);
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     if (terrainType.index == i)
                         map[zIndex, xIndex, i] = 1.0f;

@@ -101,14 +101,19 @@ MonoBehaviour:
   heightTerrainTypes:
   - name: water
     index: 0
-    threshold: 0.4
+    threshold: 0.39
     color: {r: 0.2943663, g: 0.8269132, b: 0.990566, a: 0}
     texture: {fileID: 2800000, guid: ef5c51cfa2ce46043a41a376b560c525, type: 3}
   - name: ground
+    index: 3
+    threshold: 0.41
+    color: {r: 0.9922557, g: 1, b: 0.3726415, a: 0}
+    texture: {fileID: 2800000, guid: bfd675cc0db1d4656b75dc6d6ba91142, type: 3}
+  - name: ground
     index: 1
     threshold: 0.6
-    color: {r: 0.27230084, g: 0.9433962, b: 0.27144888, a: 0}
-    texture: {fileID: 2800000, guid: c6e0767b1f8c34890ac245217f4b9731, type: 3}
+    color: {r: 0.27058825, g: 0.9450981, b: 0.27058825, a: 0}
+    texture: {fileID: 2800000, guid: 440eb36db91ca410f800ff3cfe43572f, type: 3}
   - name: mountain
     index: 2
     threshold: 1

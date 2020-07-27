@@ -9,19 +9,17 @@ public class WorldFunctions : MonoBehaviour
     public float time;
 
     private GameObject playerSpotlight;
+    private GameObject sun, moon;
+
 
     // Start is called before the first frame update
     void Start()
     {
         playerSpotlight = GameObject.Find("Torchlight");
+        sun = GameObject.Find("Sun");
+        moon = GameObject.Find("Moon");
 
         InvokeRepeating("Tick", 1f, 1f);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void Tick()
@@ -29,8 +27,10 @@ public class WorldFunctions : MonoBehaviour
         time += 0.1f;
         if (time % 3600 == 0)
             time = 0;
-        Vector3 to = new Vector3(time, 0, 0);
-        this.transform.localEulerAngles = to;
+        Vector3 sunRotation = new Vector3(time / 10, 0, 0);
+        Vector3 moonRotation = new Vector3((time / 10) - 180, 0, 0);
+        sun.transform.localEulerAngles = sunRotation;
+        moon.transform.localEulerAngles = moonRotation;
 
         if (playerSpotlight.activeSelf && time < 1800)
             playerSpotlight.SetActive(false);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -25,7 +26,7 @@ public class LevelGeneration : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        world = new GameObject("World");
+        world = new GameObject("WorldTiles");
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
         cameraPosition = camera.transform.position;
 
@@ -93,10 +94,13 @@ public class LevelGeneration : MonoBehaviour
                 if (tilePosition.x >= 0 && tilePosition.z >= 0 && !CheckIfTileExist(tilePosition))
                 {
                     var tile = Instantiate(Resources.Load("TerrainAssets/TerrainChunk") as GameObject, tilePosition, Quaternion.identity);
-                    //var waterTile = Instantiate(Resources.Load("WaterBasicDaytime") as GameObject, tilePosition, Quaternion.identity);
+                    var waterTilePosition = new Vector3(tilePosition.x + (tileSize.x / 2), 39f, tilePosition.z + (tileSize.z / 2));
+                    var waterTile = Instantiate(Resources.Load("TerrainAssets/WaterBasicDaytime") as GameObject, waterTilePosition, Quaternion.identity);
+                    waterTile.transform.localScale = new Vector3(13, 1, 13);
+
                     tile.transform.parent = world.transform;
                     var terrain = tile.GetComponent<TerrainGeneration>().GenerateTile();
-
+                    
                     var size = terrain.terrainData.heightmapResolution;
                     var tilePositionIndexX = (int)tilePosition.x / size;
                     var tilePositionIndexZ = (int)tilePosition.z / size;
