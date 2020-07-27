@@ -283,11 +283,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100006, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 172
+      value: 1075
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.y
@@ -295,7 +295,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 149
+      value: 1149
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1310,6 +1310,8 @@ GameObject:
   - component: {fileID: 920596219}
   - component: {fileID: 920596218}
   - component: {fileID: 920596217}
+  - component: {fileID: 920596222}
+  - component: {fileID: 920596223}
   m_Layer: 0
   m_Name: Level
   m_TagString: Untagged
@@ -1329,10 +1331,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d5c4372fdc5e7943857a601036d9c76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapWidthInTiles: 4
-  mapDepthInTiles: 4
+  mapWidthInTiles: 1
+  mapDepthInTiles: 1
   tilePrefab: {fileID: 1632624867074686386, guid: ebac65e79e0f2194ca77d606b0f989cf,
     type: 3}
+  treeGeneration: {fileID: 920596222}
   camera: {fileID: 0}
 --- !u!64 &920596218
 MeshCollider:
@@ -1409,6 +1412,35 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &920596222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920596216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fc97abbc62f511428e3dec29cd82cc8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noiseMapGeneration: {fileID: 920596223}
+  waves: []
+  levelScale: 0
+  neighborRadius: 1
+  treePrefab: {fileID: 0}
+--- !u!114 &920596223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920596216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc63174a80b6ec344adf1891b2bc1828, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1021224741
 GameObject:
   m_ObjectHideFlags: 0
@@ -2146,7 +2178,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &1969262705
 AudioListener:
   m_ObjectHideFlags: 0
@@ -2206,7 +2238,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969262704}
   m_LocalRotation: {x: 0.22068423, y: -0, z: -0, w: 0.9753453}
-  m_LocalPosition: {x: 4.1, y: 5.15, z: -10}
+  m_LocalPosition: {x: 1526, y: 5.15, z: 1093}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

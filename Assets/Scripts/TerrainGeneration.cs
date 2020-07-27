@@ -30,7 +30,7 @@ public class TerrainGeneration : MonoBehaviour
     private VisualizationMode visualizationMode;
     enum VisualizationMode { Height, Game }
 
-    public Terrain GenerateTile()
+    public TileData GenerateTile()
     {
         var terrainTile = this.GetComponent<Terrain>();
         var terrainData = new TerrainData();
@@ -50,6 +50,7 @@ public class TerrainGeneration : MonoBehaviour
 
         terrainData.terrainLayers = terrainTile.terrainData.terrainLayers;
         terrainData.alphamapResolution = size * 4;
+        terrainData.treePrototypes = terrainTile.terrainData.treePrototypes;
 
         var chosenHeightTerrainTypes = new TerrainType[size, size];
         var heightLayer = BuildTexture(heightMap, this.heightTerrainTypes, chosenHeightTerrainTypes);
@@ -74,7 +75,7 @@ public class TerrainGeneration : MonoBehaviour
         terrainTile.terrainData = terrainData;
         terrainCollider.terrainData = terrainData;
 
-        return terrainTile;
+        return new TileData(heightMap, null, null, chosenHeightTerrainTypes, null, null, null, null, terrainTile);
     }
 
     private TerrainLayer BuildTexture(float[,] heightMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes)
@@ -136,7 +137,6 @@ public class TerrainGeneration : MonoBehaviour
 
         return map;
     }
-
 
     private TerrainType ChooseTerrainType(float height, TerrainType[] terrainTypes)
     {

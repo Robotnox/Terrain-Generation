@@ -169,7 +169,7 @@ public class TileGeneration : MonoBehaviour
         }
         UpdateMeshVertices(heightMap);
 
-        var tileData = new TileData(heightMap, heatMap, moistureMap, chosenHeatTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes, this.meshFilter.mesh);
+        var tileData = new TileData(heightMap, heatMap, moistureMap, chosenHeatTerrainTypes, chosenHeatTerrainTypes, chosenMoistureTerrainTypes, chosenBiomes, this.meshFilter.mesh, null);
 
         return tileData;
     }
@@ -320,10 +320,11 @@ public class TileData
     public TerrainType[,] chosenMoistureTerrainTypes;
     public Biome[,] chosenBiomes;
     public Mesh mesh;
+    public Terrain terrain; 
 
     public TileData(float[,] heightMap, float[,] heatMap, float[,] moistureMap,
         TerrainType[,] chosenHeightTerrainTypes, TerrainType[,] chosenHeatTerrainTypes, TerrainType[,] chosenMoistureTerrainTypes, 
-        Biome[,] chosenBiomes, Mesh mesh)
+        Biome[,] chosenBiomes, Mesh mesh, Terrain terrain)
     {
         this.heightMap = heightMap;
         this.heatMap = heatMap;
@@ -333,6 +334,7 @@ public class TileData
         this.chosenMoistureTerrainTypes = chosenMoistureTerrainTypes;
         this.chosenBiomes = chosenBiomes;
         this.mesh = mesh;
+        this.terrain = terrain;
     }
 }
 

@@ -32,9 +32,9 @@ public class WorldFunctions : MonoBehaviour
         sun.transform.localEulerAngles = sunRotation;
         moon.transform.localEulerAngles = moonRotation;
 
-        if (playerSpotlight.activeSelf && time < 1800)
+        if (playerSpotlight != null && playerSpotlight.activeSelf && time < 1800)
             playerSpotlight.SetActive(false);
-        else if (!playerSpotlight.activeSelf && time >= 1800)
+        else if (playerSpotlight != null && !playerSpotlight.activeSelf && time >= 1800)
             playerSpotlight.SetActive(true);
     }
 }

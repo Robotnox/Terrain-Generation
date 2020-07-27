@@ -1,0 +1,69 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using static NoiseMapGeneration;
+
+public class TreeGeneration : MonoBehaviour
+{
+    [SerializeField]
+    private NoiseMapGeneration noiseMapGeneration;
+
+    [SerializeField]
+    private Wave[] waves;
+
+    [SerializeField]
+    private float levelScale;
+
+    [SerializeField]
+    private float neighborRadius;
+
+    [SerializeField]
+    private GameObject treePrefab;
+
+
+    public void GenerateTrees(TileData terrainTile)
+    {
+        var terrain = terrainTile.terrain;
+        var tileSize = (int)terrain.terrainData.size.x;
+        var treeMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileSize, 0, 0, 77, waves);
+
+        var tree = new TreeInstance();
+        tree.prototypeIndex = 0;
+        tree.heightScale = 0.7f;
+        tree.widthScale = 1;
+        for (int zIndex = 0; zIndex < tileSize; zIndex++)
+        {
+            for (int xIndex = 0; xIndex < tileSize; xIndex++)
+            {
+                if (terrainTile.chosenHeightTerrainTypes[zIndex,xIndex].name.Equals("ground"))
+                {
+                    float treeValue = treeMap[zIndex, xIndex];
+
+                    int neighborZBeing = (int)Mathf.Max(0, zIndex - this.neighborRadius);
+                    int neighborZEnd = (int)Mathf.Min(tileSize - 1, zIndex + this.neighborRadius);
+                    int neighborXBeing = (int)Mathf.Max(0, xIndex - this.neighborRadius);
+                    int neighborXEnd = (int)Mathf.Min(tileSize - 1, xIndex + this.neighborRadius);
+                    float maxValue = 0f;
+
+                    for (int neighborZ = neighborZBeing; neighborZ <= neighborZEnd; neighborZ++)
+                    {
+                        for (int neighborX = neighborXBeing; neighborX <= neighborXEnd; neighborX++)
+                        {
+                            float neighborValue = treeMap[neighborZ, neighborX];
+                            if (neighborValue >= maxValue)
+                                maxValue = neighborValue;
+                        }
+                    }
+
+                    if (treeValue == maxValue)
+                    {
+                        tree.position = new Vector3((float)xIndex / (float)tileSize, 0, (float)zIndex / (float)tileSize);
+                        terrain.AddTreeInstance(tree);
+                    }
+                }
+            }
+        }
+        terrainTile.terrain.Flush();
+    }
+}

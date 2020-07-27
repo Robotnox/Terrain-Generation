@@ -14,6 +14,9 @@ public class LevelGeneration : MonoBehaviour
     private GameObject tilePrefab;
 
     [SerializeField]
+    private TreeGeneration treeGeneration;
+
+    [SerializeField]
     private Camera camera;
     private Vector3 cameraPosition;
     private Bounds currentTile;
@@ -91,19 +94,20 @@ public class LevelGeneration : MonoBehaviour
             for (int xIndex = -minMax; xIndex <= minMax; xIndex++)
             {
                 var tilePosition = new Vector3(x + xIndex * tileWidth, 0, z + zIndex * tileDepth);
-                if (tilePosition.x >= 0 && tilePosition.z >= 0 && !CheckIfTileExist(tilePosition))
+                int tilePositionIndexX = (int)(tilePosition.x / tileSize.x);
+                int tilePositionIndexZ = (int)(tilePosition.z / tileSize.z);
+                if (tilePosition.x >= 0 && tilePosition.z >= 0 && terrains[tilePositionIndexZ, tilePositionIndexX] == null)
                 {
                     var tile = Instantiate(Resources.Load("TerrainAssets/TerrainChunk") as GameObject, tilePosition, Quaternion.identity);
                     var waterTilePosition = new Vector3(tilePosition.x + (tileSize.x / 2), 39f, tilePosition.z + (tileSize.z / 2));
                     var waterTile = Instantiate(Resources.Load("TerrainAssets/WaterBasicDaytime") as GameObject, waterTilePosition, Quaternion.identity);
                     waterTile.transform.localScale = new Vector3(13, 1, 13);
-
-                    tile.transform.parent = world.transform;
-                    var terrain = tile.GetComponent<TerrainGeneration>().GenerateTile();
                     
+                    tile.transform.parent = world.transform;
+                    var terrainTile = tile.GetComponent<TerrainGeneration>().GenerateTile();
+                    var terrain = terrainTile.terrain;
+
                     var size = terrain.terrainData.heightmapResolution;
-                    var tilePositionIndexX = (int)tilePosition.x / size;
-                    var tilePositionIndexZ = (int)tilePosition.z / size;
                     terrains[tilePositionIndexZ, tilePositionIndexX] = terrain;
 
                     if (tilePositionIndexZ - 1 >= 0 && tilePositionIndexX - 1 >= 0)
@@ -112,9 +116,8 @@ public class LevelGeneration : MonoBehaviour
                         TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ - 1, tilePositionIndexX], null);
                     else if (tilePositionIndexX - 1 >= 0)
                         TerrainGeneration.Fix(terrain, null, terrains[tilePositionIndexZ, tilePositionIndexX - 1]);
-                    //var tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity) as GameObject;
-                    //TileData tileData = tile.GetComponent<TileGeneration>().GenerateTile(10, 500);
-                    //levelData.AddTileData(tileData, (int)tilePosition.z / tileDepth, (int)tilePosition.x / tileWidth);
+
+                    treeGeneration.GenerateTrees(terrainTile);
                 }
                 currentTile = new Bounds(new Vector3(x + (tileWidth / 2), 0, z + (tileDepth / 2)), new Vector3(tileWidth, 1000, tileDepth));
             }
