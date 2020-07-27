@@ -110,12 +110,13 @@ public class LevelGeneration : MonoBehaviour
                     var size = terrain.terrainData.heightmapResolution;
                     terrains[tilePositionIndexZ, tilePositionIndexX] = terrain;
 
-                    if (tilePositionIndexZ - 1 >= 0 && tilePositionIndexX - 1 >= 0)
-                        TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ, tilePositionIndexX - 1], terrains[tilePositionIndexZ - 1, tilePositionIndexX]);
-                    else if (tilePositionIndexZ - 1 >= 0)
-                        TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ - 1, tilePositionIndexX], null);
-                    else if (tilePositionIndexX - 1 >= 0)
-                        TerrainGeneration.Fix(terrain, null, terrains[tilePositionIndexZ, tilePositionIndexX - 1]);
+                    TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ, tilePositionIndexX - 1], terrains[tilePositionIndexZ - 1, tilePositionIndexX]);
+                    //if (tilePositionIndexZ - 1 >= 0 && tilePositionIndexX - 1 >= 0)
+                    //    TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ, tilePositionIndexX - 1], terrains[tilePositionIndexZ - 1, tilePositionIndexX]);
+                    //else if (tilePositionIndexZ - 1 >= 0)
+                    //    TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ - 1, tilePositionIndexX], null);
+                    //else if (tilePositionIndexX - 1 >= 0)
+                    //    TerrainGeneration.Fix(terrain, null, terrains[tilePositionIndexZ, tilePositionIndexX - 1]);
 
                     treeGeneration.GenerateTrees(terrainTile);
                 }

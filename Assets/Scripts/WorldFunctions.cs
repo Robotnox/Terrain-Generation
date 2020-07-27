@@ -8,6 +8,11 @@ public class WorldFunctions : MonoBehaviour
     [Tooltip("0 is 06:00, 900 is 12:00, 1800 is 18:00, 2400 is 00:00")]
     public float time;
 
+    [SerializeField]
+    public Material daySkybox;
+    [SerializeField]
+    public Material nightSkybox;
+
     private GameObject playerSpotlight;
     private GameObject sun, moon;
 
@@ -25,7 +30,7 @@ public class WorldFunctions : MonoBehaviour
     private void Tick()
     {
         time += 0.1f;
-        if (time % 3600 == 0)
+        if (time >= 3600)
             time = 0;
         Vector3 sunRotation = new Vector3(time / 10, 0, 0);
         Vector3 moonRotation = new Vector3((time / 10) - 180, 0, 0);
@@ -33,8 +38,14 @@ public class WorldFunctions : MonoBehaviour
         moon.transform.localEulerAngles = moonRotation;
 
         if (playerSpotlight != null && playerSpotlight.activeSelf && time < 1800)
+        {
             playerSpotlight.SetActive(false);
+            RenderSettings.skybox = daySkybox;
+        }
         else if (playerSpotlight != null && !playerSpotlight.activeSelf && time >= 1800)
+        {
             playerSpotlight.SetActive(true);
+            RenderSettings.skybox = nightSkybox;
+        }
     }
 }
