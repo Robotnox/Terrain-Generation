@@ -10,6 +10,11 @@ public class TreeGeneration : MonoBehaviour
     private NoiseMapGeneration noiseMapGeneration;
 
     [SerializeField]
+    [Tooltip("Seed allow create different trees location")]
+    private int seed;
+
+    [SerializeField]
+    [Tooltip("Waves influence how the noisemap is created")]
     private Wave[] waves;
 
     [SerializeField]
@@ -21,12 +26,16 @@ public class TreeGeneration : MonoBehaviour
     [SerializeField]
     private GameObject treePrefab;
 
-
+    /*
+     * Generate trees for the terrain based on the noisemap and neighbour trees
+     * TODO : Need rewriting to properly generate trees
+     */
     public void GenerateTrees(TileData terrainTile)
     {
         var terrain = terrainTile.terrain;
+        var terrainPosition = terrain.GetPosition();
         var tileSize = (int)terrain.terrainData.size.x;
-        var treeMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileSize, 0, 0, 77, waves);
+        var treeMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(tileSize, terrainPosition.x, terrainPosition.z, seed, waves);
 
         var tree = new TreeInstance();
         tree.prototypeIndex = 0;

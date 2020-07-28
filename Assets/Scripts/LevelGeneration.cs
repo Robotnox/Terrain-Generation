@@ -18,7 +18,6 @@ public class LevelGeneration : MonoBehaviour
 
     [SerializeField]
     private Camera camera;
-    private Vector3 cameraPosition;
     private Bounds currentTile;
 
     private GameObject world;
@@ -26,23 +25,18 @@ public class LevelGeneration : MonoBehaviour
     private LevelData levelData;
     private Terrain[,] terrains;
 
-    // Start is called before the first frame update
+    /* Setup world terrains */
     void Start()
     {
         world = new GameObject("WorldTiles");
         camera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
-        cameraPosition = camera.transform.position;
 
         terrains = new Terrain[512, 512];
-
-        //var tileMeshVertices = tilePrefab.GetComponent<MeshFilter>().sharedMesh.vertices;
-        //int tileDepthInVertices = (int)Mathf.Sqrt(tileMeshVertices.Length);
-        //int tileWidthInVertices = tileDepthInVertices;
-        //levelData = new LevelData(tileDepthInVertices, tileWidthInVertices, 500, 500);
 
         UpdateMap();
     }
 
+    /*Update map if the camera moved to another tile*/
     private void Update()
     {
         var cameraCurrentPosition = camera.transform.position;
@@ -50,6 +44,7 @@ public class LevelGeneration : MonoBehaviour
             UpdateMap();
     }
 
+    [Obsolete("For reference only, use UpdateMap instead")]
     public void GenerateMap()
     {
         foreach (Transform child in world.transform)
@@ -72,17 +67,16 @@ public class LevelGeneration : MonoBehaviour
         }
     }
 
+    /*
+     * Get the position of the camera and then generate terrains around the camera
+     * TODO : Move Generate Trees to TerrainGeneration script
+     * TODO : Make water plane height adjustable
+     */
     public void UpdateMap()
     {
         var tileSize = tilePrefab.GetComponent<Terrain>().terrainData.size;
         int tileWidth = (int)tileSize.x;
         int tileDepth = (int)tileSize.z;
-        //Vector3 tileSize = tilePrefab.GetComponent<MeshRenderer>().bounds.size;
-        //int tileWidth = (int)tileSize.x;
-        //int tileDepth = (int)tileSize.z;
-        //Vector3[] tileMeshVertices = tilePrefab.GetComponent<MeshFilter>().sharedMesh.vertices;
-        //int tileDepthInVertices = (int)Mathf.Sqrt(tileMeshVertices.Length);
-        //int tileWidthInVertices = tileDepthInVertices;
 
         var currentCameraPosition = camera.transform.position;
         var x = Mathf.Floor(currentCameraPosition.x / tileWidth) * tileWidth;
@@ -99,27 +93,23 @@ public class LevelGeneration : MonoBehaviour
                 if (tilePosition.x >= 0 && tilePosition.z >= 0 && terrains[tilePositionIndexZ, tilePositionIndexX] == null)
                 {
                     var tile = Instantiate(Resources.Load("TerrainAssets/TerrainChunk") as GameObject, tilePosition, Quaternion.identity);
-                    var waterTilePosition = new Vector3(tilePosition.x + (tileSize.x / 2), 39f, tilePosition.z + (tileSize.z / 2));
-                    var waterTile = Instantiate(Resources.Load("TerrainAssets/WaterBasicDaytime") as GameObject, waterTilePosition, Quaternion.identity);
-                    waterTile.transform.localScale = new Vector3(13, 1, 13);
                     
                     tile.transform.parent = world.transform;
                     var terrainTile = tile.GetComponent<TerrainGeneration>().GenerateTile();
                     var terrain = terrainTile.terrain;
 
-                    var size = terrain.terrainData.heightmapResolution;
                     terrains[tilePositionIndexZ, tilePositionIndexX] = terrain;
 
                     TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ, tilePositionIndexX - 1], terrains[tilePositionIndexZ - 1, tilePositionIndexX]);
-                    //if (tilePositionIndexZ - 1 >= 0 && tilePositionIndexX - 1 >= 0)
-                    //    TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ, tilePositionIndexX - 1], terrains[tilePositionIndexZ - 1, tilePositionIndexX]);
-                    //else if (tilePositionIndexZ - 1 >= 0)
-                    //    TerrainGeneration.Fix(terrain, terrains[tilePositionIndexZ - 1, tilePositionIndexX], null);
-                    //else if (tilePositionIndexX - 1 >= 0)
-                    //    TerrainGeneration.Fix(terrain, null, terrains[tilePositionIndexZ, tilePositionIndexX - 1]);
+
+                    // Create water plane, move and scale it at the center of the terrain 
+                    var waterTilePosition = new Vector3(tilePosition.x + (tileSize.x / 2), 39f, tilePosition.z + (tileSize.z / 2));
+                    var waterTile = Instantiate(Resources.Load("TerrainAssets/WaterBasicDaytime") as GameObject, waterTilePosition, Quaternion.identity);
+                    waterTile.transform.localScale = new Vector3(13, 1, 13);
 
                     treeGeneration.GenerateTrees(terrainTile);
                 }
+                // Set currentTile to be where camera new position is
                 currentTile = new Bounds(new Vector3(x + (tileWidth / 2), 0, z + (tileDepth / 2)), new Vector3(tileWidth, 1000, tileDepth));
             }
         }

@@ -16,8 +16,6 @@ public class WorldFunctions : MonoBehaviour
     private GameObject playerSpotlight;
     private GameObject sun, moon;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         playerSpotlight = GameObject.Find("Torchlight");
@@ -27,6 +25,11 @@ public class WorldFunctions : MonoBehaviour
         InvokeRepeating("Tick", 1f, 1f);
     }
 
+    /*
+     * 24 hours is worth 3600 ticks.
+     * Rotate sun and moon per tick.
+     * Turn on/off player spotlight. 
+     */
     private void Tick()
     {
         time += 0.1f;

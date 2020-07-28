@@ -9,7 +9,9 @@ using static NoiseMapGeneration;
 public class TerrainType
 {
     public string name;
+    [Tooltip("Currently matching terrain layer indexes")]
     public int index;
+    [Tooltip("Must be between 0 to 1")]
     public float threshold;
     public Color color;
     public Texture texture;
@@ -21,15 +23,27 @@ public class TerrainGeneration : MonoBehaviour
     NoiseMapGeneration noiseMapGeneration;
 
     [SerializeField]
+    [Tooltip("Seed allow create different world")]
+    private int seed;
+
+    [SerializeField]
+    [Tooltip("Waves influence how the noisemap is created")]
     private Wave[] waves;
 
     [SerializeField]
+    [Tooltip("Threshold must be in order starting from lowest to highest")]
     private TerrainType[] heightTerrainTypes;
 
     [SerializeField]
+    [Tooltip("Game mode for offical play while others mode are for debugging")]
     private VisualizationMode visualizationMode;
-    enum VisualizationMode { Height, Game }
+    enum VisualizationMode { Height, Heat, Moisture, Game }
 
+    /*
+     * Generate a terrain by getting a noisemap and adjust the height.
+     * Then create and apply texture to the terrain layer depends on the visualization mode.
+     * TODO : Add heat and moisture maps
+     */
     public TileData GenerateTile()
     {
         var terrainTile = this.GetComponent<Terrain>();
@@ -40,14 +54,15 @@ public class TerrainGeneration : MonoBehaviour
         terrainData.heightmapResolution = size;
         terrainData.baseMapResolution = 100;
         terrainData.SetDetailResolution(100, 32);
+        terrainData.size = new Vector3(size, 100, size);
 
+        // generate height noisemap and add hills to the terrain
         float offsetX = this.gameObject.transform.position.x;
         float offsetZ = this.gameObject.transform.position.z;
-        var heightMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(size, size, size, offsetX, offsetZ, 77, waves);
+        var heightMap = this.noiseMapGeneration.GeneratePerlinNoiseMap(size, offsetX, offsetZ, seed, waves);
         terrainData.SetHeights(0, 0, heightMap);
 
-        terrainData.size = new Vector3(terrainData.heightmapResolution, 100, terrainData.heightmapResolution);
-
+        // Setup textures and trees setting
         terrainData.terrainLayers = terrainTile.terrainData.terrainLayers;
         terrainData.alphamapResolution = size * 4;
         terrainData.treePrototypes = terrainTile.terrainData.treePrototypes;
@@ -78,12 +93,18 @@ public class TerrainGeneration : MonoBehaviour
         return new TileData(heightMap, null, null, chosenHeightTerrainTypes, null, null, null, null, terrainTile);
     }
 
-    private TerrainLayer BuildTexture(float[,] heightMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes)
+    /*
+     * Generate a Texture2D to apply on the terrain layer.
+     * <param name="noiseMap">Noise map that will be used to get data of the terrain</param>
+     * <param name="terrainTypes">Data to compare against the noise map</param>
+     * <param name="chosenTerrainTypes">Infomation of each vertice in the terrain</param>
+     */
+    private TerrainLayer BuildTexture(float[,] noiseMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes)
     {
         var terrainLayer = new TerrainLayer();
 
-        int tileDepth = heightMap.GetLength(0);
-        int tileWidth = heightMap.GetLength(1);
+        int tileDepth = noiseMap.GetLength(0);
+        int tileWidth = noiseMap.GetLength(1);
 
         terrainLayer.tileSize = new Vector2(tileDepth, tileWidth);
 
@@ -93,8 +114,8 @@ public class TerrainGeneration : MonoBehaviour
             for (int xIndex = 0; xIndex < tileWidth; xIndex++)
             {
                 int colorIndex = zIndex * tileWidth + xIndex;
-                float height = heightMap[zIndex, xIndex];
-                var terrainType = ChooseTerrainType(height, terrainTypes);
+                float noise = noiseMap[zIndex, xIndex];
+                var terrainType = ChooseTerrainType(noise, terrainTypes);
                 colorMap[colorIndex] = terrainType.color;
                 chosenTerrainTypes[zIndex, xIndex] = terrainType;
             }
@@ -110,21 +131,23 @@ public class TerrainGeneration : MonoBehaviour
         return terrainLayer;
     }
 
-    private float[,,] BuildGameTexture(float[,] heightMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes, TerrainData terrainData)
+    /*
+     * Generate texture to apply on the terrain alphamap.
+     * TODO : Rewrite so muliple textures blend into each other
+     */
+    private float[,,] BuildGameTexture(float[,] noiseMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes, TerrainData terrainData)
     {
-        int tileDepth = heightMap.GetLength(0);
-        int tileWidth = heightMap.GetLength(1);
-
         var map = terrainData.GetAlphamaps(0, 0, terrainData.alphamapWidth, terrainData.alphamapHeight);
 
-        for (int zIndex = 0; zIndex < tileDepth * 4; zIndex++)
+        for (int zIndex = 0; zIndex < terrainData.alphamapHeight; zIndex++)
         {
-            for (int xIndex = 0; xIndex < tileWidth * 4; xIndex++)
+            for (int xIndex = 0; xIndex < terrainData.alphamapWidth; xIndex++)
             {
-                float height = heightMap[(int)Mathf.Floor(zIndex / 4), (int)Mathf.Floor(xIndex / 4)];
-                var terrainType = ChooseTerrainType(height, terrainTypes);
+                float noise = noiseMap[(int)Mathf.Floor(zIndex / 4), (int)Mathf.Floor(xIndex / 4)];
+                var terrainType = ChooseTerrainType(noise, terrainTypes);
                 for (int i = 0; i < 4; i++)
                 {
+                    // i is a texture index in terrain layers that will be applied on the terrain coords 
                     if (terrainType.index == i)
                         map[zIndex, xIndex, i] = 1.0f;
                     else
@@ -138,16 +161,23 @@ public class TerrainGeneration : MonoBehaviour
         return map;
     }
 
-    private TerrainType ChooseTerrainType(float height, TerrainType[] terrainTypes)
+    /*
+     * Compare the noise to the terrain types and return the terrain type that is the closest to the threshold
+     */
+    private TerrainType ChooseTerrainType(float noise, TerrainType[] terrainTypes)
     {
         foreach (TerrainType terrainType in terrainTypes)
         {
-            if (height < terrainType.threshold)
+            if (noise < terrainType.threshold)
                 return terrainType;
         }
         return terrainTypes[terrainTypes.Length - 1];
     }
 
+    /*
+     * Snitch up terrains so the border are joined up
+     * TODO : Need rewriting to snitch up current terrain to any existing neighbour terrains that haven't been snitched up and smooth it out
+     */
     public static void Fix(Terrain cur, Terrain leftTerrain, Terrain bottomTerrain)
     {
         int resolution = cur.terrainData.heightmapResolution;
