@@ -93,9 +93,9 @@ MonoBehaviour:
   noiseMapGeneration: {fileID: 2002934327754312488}
   seed: 77
   waves:
-  - frequency: 1
-    amplitude: 1
-  - frequency: 0.25
+  - frequency: 0.4
+    amplitude: 10
+  - frequency: 0.8
     amplitude: 2
   - frequency: 0.6
     amplitude: 3

@@ -63,12 +63,12 @@ public class NoiseMapGeneration : MonoBehaviour
                 float noise = 0f;
                 float normalization = 0f;
                 noise = Mathf.PerlinNoise(sampleX, sampleZ);
-                //foreach (Wave wave in waves)
-                //{
-                //    noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + seed, sampleZ * wave.frequency + seed);
-                //    normalization += wave.amplitude;
-                //}
-                //noise /= normalization;
+                foreach (Wave wave in waves)
+                {
+                    noise += wave.amplitude * Mathf.PerlinNoise(sampleX * wave.frequency + seed, sampleZ * wave.frequency + seed);
+                    normalization += wave.amplitude;
+                }
+                noise /= normalization;
                 noiseMap[z, x]= noise;
             }
         }

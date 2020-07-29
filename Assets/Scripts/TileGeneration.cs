@@ -98,6 +98,7 @@ public class TileGeneration : MonoBehaviour
     //    UpdateMeshVertices(heightMap);
     //}
 
+    /*
     public TileData GenerateTile(float centerVertexZ, float maxDistanceZ)
     {
         var meshVertices = this.meshFilter.mesh.vertices;
@@ -173,6 +174,7 @@ public class TileGeneration : MonoBehaviour
 
         return tileData;
     }
+    */
 
     private Texture2D BuildTexture(float[,] heightMap, TerrainType[] terrainTypes, TerrainType[,] chosenTerrainTypes)
     {

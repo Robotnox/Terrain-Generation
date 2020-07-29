@@ -67,7 +67,7 @@ public class TreeGeneration : MonoBehaviour
 
                     if (treeValue == maxValue)
                     {
-                        tree.position = new Vector3((float)xIndex / (float)tileSize, 0, (float)zIndex / (float)tileSize);
+                        tree.position = new Vector3((float)xIndex / (float)tileSize, -0.4f, (float)zIndex / (float)tileSize);
                         terrain.AddTreeInstance(tree);
                     }
                 }

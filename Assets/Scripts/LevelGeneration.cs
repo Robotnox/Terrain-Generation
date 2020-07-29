@@ -17,7 +17,9 @@ public class LevelGeneration : MonoBehaviour
     private TreeGeneration treeGeneration;
 
     [SerializeField]
-    private Camera camera;
+    private CreatureGeneration creatureGeneration;
+
+    private new Camera camera;
     private Bounds currentTile;
 
     private GameObject world;
@@ -108,17 +110,11 @@ public class LevelGeneration : MonoBehaviour
                     waterTile.transform.localScale = new Vector3(13, 1, 13);
 
                     treeGeneration.GenerateTrees(terrainTile);
+                    creatureGeneration.GenerationCreatures(terrainTile);
                 }
                 // Set currentTile to be where camera new position is
                 currentTile = new Bounds(new Vector3(x + (tileWidth / 2), 0, z + (tileDepth / 2)), new Vector3(tileWidth, 1000, tileDepth));
             }
         }
-    }
-
-    private bool CheckIfTileExist(Vector3 tilePosition)
-    {
-        tilePosition.x += (tilePosition.x / 2);
-        tilePosition.z += (tilePosition.z / 2);
-        return Physics.CheckSphere(tilePosition, 1);
     }
 }
