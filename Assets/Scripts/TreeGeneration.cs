@@ -75,4 +75,32 @@ public class TreeGeneration : MonoBehaviour
         }
         terrainTile.terrain.Flush();
     }
+
+    public void GenerateRocks(TileData terrainTile)
+    {
+        var terrain = terrainTile.terrain;
+        var terrainPosition = terrain.GetPosition();
+        var tileSize = (int)terrain.terrainData.size.x;
+        var rocksList = Resources.LoadAll<GameObject>("TerrainAssets/TerrainObjects/RockPackage/Prefabs");
+
+        for (int zIndex = 0; zIndex < tileSize; zIndex++)
+        {
+            for (int xIndex = 0; xIndex < tileSize; xIndex++)
+            {
+                if (terrainTile.chosenHeightTerrainTypes[zIndex, xIndex].name.Equals("mountain"))
+                {
+                    if (UnityEngine.Random.Range(0, 100) == 0)
+                    {
+                        float x = (float)xIndex + terrainPosition.x;
+                        float z = (float)zIndex + terrainPosition.z;
+                        float y = terrain.terrainData.GetHeight((int)xIndex, (int)zIndex);
+                        var rockPosition = new Vector3(x, y, z);
+                        Instantiate(rocksList[UnityEngine.Random.Range(0, rocksList.Length)], 
+                            rockPosition, UnityEngine.Random.rotation);
+                    }
+                }
+            }
+        }
+        terrainTile.terrain.Flush();
+    }
 }

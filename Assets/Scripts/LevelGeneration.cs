@@ -110,6 +110,7 @@ public class LevelGeneration : MonoBehaviour
                     waterTile.transform.localScale = new Vector3(13, 1, 13);
 
                     treeGeneration.GenerateTrees(terrainTile);
+                    treeGeneration.GenerateRocks(terrainTile);
                     creatureGeneration.GenerationCreatures(terrainTile);
                 }
                 // Set currentTile to be where camera new position is

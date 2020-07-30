@@ -759,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3cf0cde275e8ea48be2620d49f42a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 3670
+  time: 300
   IsRaining: 0
   daySkybox: {fileID: 2100000, guid: 73324b55f67f54c7bbf43204788b8bbe, type: 2}
   nightSkybox: {fileID: 2100000, guid: 3a6db933fef1d4c759bf21220420505f, type: 2}
@@ -1451,10 +1451,10 @@ MonoBehaviour:
   noiseMapGeneration: {fileID: 920596223}
   seed: 80
   waves:
-  - frequency: 0.2
+  - frequency: 0.1
+    amplitude: 1
+  - frequency: 0.4
     amplitude: 2
-  - frequency: 1
-    amplitude: 3
   levelScale: 0
   neighborRadius: 1
   treePrefab: {fileID: 0}
