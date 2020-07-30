@@ -15,8 +15,12 @@ public class CreatureGeneration : MonoBehaviour
 
         if (tileData.chosenHeightTerrainTypes[z,x].name.Equals("ground"))
         {
+            var rotation = Quaternion.identity;
             for (int i = 0; i < Random.Range(0, 6); i++)
-                Instantiate(Resources.Load("AI/Chicken_Bot") as GameObject, new Vector3(position.x + x, y, position.z + z), Quaternion.identity);
+            {
+                rotation.eulerAngles = new Vector3(0, Random.Range(0, 360), 0);
+                Instantiate(Resources.Load("AI/Chicken_Bot") as GameObject, new Vector3(position.x + x, y, position.z + z), rotation);
+            }
         }
     } 
 }
