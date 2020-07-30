@@ -95,8 +95,9 @@ public class TreeGeneration : MonoBehaviour
                         float z = (float)zIndex + terrainPosition.z;
                         float y = terrain.terrainData.GetHeight((int)xIndex, (int)zIndex);
                         var rockPosition = new Vector3(x, y, z);
-                        Instantiate(rocksList[UnityEngine.Random.Range(0, rocksList.Length)], 
+                        var item = Instantiate(rocksList[UnityEngine.Random.Range(0, rocksList.Length)], 
                             rockPosition, UnityEngine.Random.rotation);
+                        item.transform.parent = terrain.transform;
                     }
                 }
             }

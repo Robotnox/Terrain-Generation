@@ -108,6 +108,7 @@ public class LevelGeneration : MonoBehaviour
                     var waterTilePosition = new Vector3(tilePosition.x + (tileSize.x / 2), 39f, tilePosition.z + (tileSize.z / 2));
                     var waterTile = Instantiate(Resources.Load("TerrainAssets/WaterBasicDaytime") as GameObject, waterTilePosition, Quaternion.identity);
                     waterTile.transform.localScale = new Vector3(13, 1, 13);
+                    waterTile.transform.parent = terrain.transform;
 
                     treeGeneration.GenerateTrees(terrainTile);
                     treeGeneration.GenerateRocks(terrainTile);
