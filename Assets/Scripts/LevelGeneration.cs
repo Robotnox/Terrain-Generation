@@ -14,7 +14,7 @@ public class LevelGeneration : MonoBehaviour
     private GameObject tilePrefab;
 
     [SerializeField]
-    private TreeGeneration treeGeneration;
+    private ObjectGeneration objectGeneration;
 
     [SerializeField]
     private CreatureGeneration creatureGeneration;
@@ -46,27 +46,14 @@ public class LevelGeneration : MonoBehaviour
             UpdateMap();
     }
 
-    [Obsolete("For reference only, use UpdateMap instead")]
     public void GenerateMap()
     {
         foreach (Transform child in world.transform)
             Destroy(child.gameObject);
-
-        var tileSize = tilePrefab.GetComponent<MeshRenderer>().bounds.size;
-        int tileWidth = (int)tileSize.x;
-        int tileDepth = (int)tileSize.z;
-
-        for (int zIndex = 0; zIndex < mapDepthInTiles; zIndex++)
-        {
-            for (int xIndex = 0; xIndex < mapWidthInTiles; xIndex++)
-            {
-                var tilePosition = new Vector3(this.gameObject.transform.position.x + xIndex * tileWidth,
-                    this.gameObject.transform.position.y,
-                    this.gameObject.transform.position.z + zIndex * tileDepth);
-                var tile = Instantiate(tilePrefab, tilePosition, Quaternion.identity) as GameObject;
-                tile.transform.parent = world.transform;
-            }
-        }
+        terrains = new Terrain[512, 512];
+        var cameraPosition = camera.transform;
+        Camera.main.transform.parent.transform.position = new Vector3(cameraPosition.position.x, 100, cameraPosition.position.z);
+        UpdateMap();
     }
 
     /*
@@ -110,8 +97,9 @@ public class LevelGeneration : MonoBehaviour
                     waterTile.transform.localScale = new Vector3(13, 1, 13);
                     waterTile.transform.parent = terrain.transform;
 
-                    treeGeneration.GenerateTrees(terrainTile);
-                    treeGeneration.GenerateRocks(terrainTile);
+                    objectGeneration.GenerateTrees(terrainTile);
+                    objectGeneration.GenerateGrass(terrainTile);
+                    objectGeneration.GenerateRocks(terrainTile);
                     creatureGeneration.GenerationCreatures(terrainTile);
                 }
                 // Set currentTile to be where camera new position is

@@ -46,6 +46,9 @@ public class TerrainGeneration : MonoBehaviour
      */
     public TileData GenerateTile()
     {
+        var str = GameObject.Find("SeedInputField").GetComponent<TMPro.TMP_InputField>().text;
+        int.TryParse(str, out seed);
+
         var terrainTile = this.GetComponent<Terrain>();
         var terrainData = new TerrainData();
         var terrainCollider = terrainTile.GetComponent<TerrainCollider>();
@@ -66,6 +69,7 @@ public class TerrainGeneration : MonoBehaviour
         terrainData.terrainLayers = terrainTile.terrainData.terrainLayers;
         terrainData.alphamapResolution = size * 4;
         terrainData.treePrototypes = terrainTile.terrainData.treePrototypes;
+        terrainData.detailPrototypes = terrainTile.terrainData.detailPrototypes;
 
         var chosenHeightTerrainTypes = new TerrainType[size, size];
         var heightLayer = BuildTexture(heightMap, this.heightTerrainTypes, chosenHeightTerrainTypes);

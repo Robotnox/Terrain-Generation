@@ -349,6 +349,10 @@ PrefabInstance:
       propertyPath: field of view
       value: 26.991467
       objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
+      propertyPath: mouseLook.lockCursor
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c6453f8e1f814744d8b94e5a6d1f9942, type: 3}
 --- !u!1 &151165218
@@ -978,7 +982,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &814661710
 Transform:
   m_ObjectHideFlags: 0
@@ -1359,7 +1363,7 @@ MonoBehaviour:
   mapDepthInTiles: 2
   tilePrefab: {fileID: 1632624867074686386, guid: ebac65e79e0f2194ca77d606b0f989cf,
     type: 3}
-  treeGeneration: {fileID: 920596222}
+  objectGeneration: {fileID: 920596222}
   creatureGeneration: {fileID: 920596224}
 --- !u!64 &920596218
 MeshCollider:
